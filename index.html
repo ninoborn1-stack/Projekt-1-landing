@@ -1,0 +1,1950 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Klar — Focus. Ship. Repeat.</title>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+
+  <style>
+    /* =============================================
+       RESET & BASE
+    ============================================= */
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* =============================================
+       CSS CUSTOM PROPERTIES
+    ============================================= */
+    :root {
+      --accent: #A78BFA;
+      --accent-dim: rgba(167, 139, 250, 0.12);
+      --accent-dim-2: rgba(167, 139, 250, 0.06);
+      --radius: 12px;
+      --radius-sm: 6px;
+      --transition: cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    [data-theme="dark"] {
+      --bg:       #0A0A0A;
+      --bg-2:     #111111;
+      --bg-3:     #1A1A1A;
+      --border:   rgba(255,255,255,0.08);
+      --border-2: rgba(255,255,255,0.14);
+      --text:     #F0F0F0;
+      --text-2:   #888888;
+      --text-3:   #555555;
+      --card-bg:  #111111;
+      --card-bg-hover: #161616;
+      --noise-opacity: 0.03;
+    }
+
+    [data-theme="light"] {
+      --bg:       #F5F5F0;
+      --bg-2:     #EEEEE8;
+      --bg-3:     #E5E5DE;
+      --border:   rgba(0,0,0,0.08);
+      --border-2: rgba(0,0,0,0.14);
+      --text:     #111111;
+      --text-2:   #666666;
+      --text-3:   #AAAAAA;
+      --card-bg:  #FFFFFF;
+      --card-bg-hover: #F8F8F5;
+      --noise-opacity: 0.04;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.4s var(--transition), color 0.4s var(--transition);
+    }
+
+    /* Noise texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+      opacity: var(--noise-opacity);
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    /* =============================================
+       ICONS
+    ============================================= */
+    [data-lucide] {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
+      stroke-width: 1.5;
+      fill: none;
+      display: inline-block;
+      vertical-align: middle;
+      flex-shrink: 0;
+    }
+
+    /* =============================================
+       TYPOGRAPHY
+    ============================================= */
+    h1, h2, h3, h4 {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      line-height: 1.05;
+      letter-spacing: -0.03em;
+    }
+
+    /* =============================================
+       LAYOUT UTILITIES
+    ============================================= */
+    .container {
+      width: 100%;
+      max-width: 1160px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    .section {
+      padding: 120px 0;
+    }
+
+    /* =============================================
+       NAVIGATION
+    ============================================= */
+    nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      padding: 20px 0;
+      transition: background 0.3s ease, border-color 0.3s ease, backdrop-filter 0.3s ease;
+    }
+
+    nav.scrolled {
+      background: rgba(10, 10, 10, 0.75);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    [data-theme="light"] nav.scrolled {
+      background: rgba(245, 245, 240, 0.75);
+    }
+
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .nav-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: -0.04em;
+      color: var(--text);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--accent);
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 36px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 400;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--text);
+    }
+
+    .nav-actions {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    /* Hamburger */
+    .hamburger {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+      color: var(--text);
+    }
+
+    .hamburger span {
+      display: block;
+      width: 22px;
+      height: 1.5px;
+      background: currentColor;
+      transition: all 0.3s var(--transition);
+      transform-origin: center;
+    }
+
+    .hamburger.open span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+    .hamburger.open span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: var(--bg);
+      z-index: 99;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 40px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+
+    .mobile-menu.open {
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .mobile-menu a {
+      font-family: 'Syne', sans-serif;
+      font-size: 2rem;
+      font-weight: 700;
+      letter-spacing: -0.03em;
+      color: var(--text);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .mobile-menu a:hover { color: var(--accent); }
+
+    .mobile-menu-actions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+
+    /* =============================================
+       BUTTONS
+    ============================================= */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 20px;
+      border-radius: var(--radius-sm);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      text-decoration: none;
+      transition: all 0.2s var(--transition);
+      white-space: nowrap;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-2);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-3);
+      color: var(--text);
+      border-color: var(--border-2);
+    }
+
+    .btn-accent {
+      background: var(--accent);
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .btn-accent:hover {
+      background: #9270f5;
+      transform: translateY(-1px);
+      box-shadow: 0 8px 24px rgba(167,139,250,0.3);
+    }
+
+    .btn-accent:active {
+      transform: translateY(0);
+    }
+
+    .btn-outline {
+      background: transparent;
+      color: var(--accent);
+      border: 1px solid var(--accent);
+    }
+
+    .btn-outline:hover {
+      background: var(--accent-dim);
+    }
+
+    .btn-lg {
+      padding: 14px 28px;
+      font-size: 0.95rem;
+      border-radius: var(--radius);
+    }
+
+    /* =============================================
+       CONTROLS (Theme + Lang)
+    ============================================= */
+    .controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .ctrl-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-sm);
+      background: transparent;
+      color: var(--text-2);
+      cursor: pointer;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .ctrl-btn:hover {
+      background: var(--bg-3);
+      color: var(--text);
+      border-color: var(--border-2);
+    }
+
+    .ctrl-btn.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+      border-color: var(--accent);
+    }
+
+    /* =============================================
+       HERO SECTION
+    ============================================= */
+    .hero {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding-top: 100px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    /* Radial glow background */
+    .hero::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -60%);
+      width: 800px;
+      height: 600px;
+      background: radial-gradient(ellipse at center, rgba(167,139,250,0.07) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .hero-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 14px;
+      border: 1px solid var(--border-2);
+      border-radius: 999px;
+      font-size: 0.8rem;
+      color: var(--text-2);
+      background: var(--bg-2);
+      margin-bottom: 36px;
+      width: fit-content;
+    }
+
+    .hero-badge-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+      animation: pulse 2s ease infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.8); }
+    }
+
+    .hero-headline {
+      font-size: clamp(3rem, 7vw, 6.5rem);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -0.04em;
+      margin-bottom: 28px;
+      max-width: 900px;
+    }
+
+    .hero-headline .accent-word {
+      color: var(--accent);
+      position: relative;
+      display: inline-block;
+    }
+
+    .hero-sub {
+      font-size: clamp(1rem, 2vw, 1.2rem);
+      color: var(--text-2);
+      max-width: 520px;
+      margin-bottom: 48px;
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    .hero-cta {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+
+    .hero-note {
+      font-size: 0.8rem;
+      color: var(--text-3);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-scroll {
+      position: absolute;
+      bottom: 40px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+      color: var(--text-3);
+      font-size: 0.75rem;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      animation: bounce 2s ease infinite;
+    }
+
+    @keyframes bounce {
+      0%, 100% { transform: translateX(-50%) translateY(0); }
+      50% { transform: translateX(-50%) translateY(6px); }
+    }
+
+    /* Mockup */
+    .hero-visual {
+      margin-top: 80px;
+      position: relative;
+    }
+
+    .mockup-frame {
+      border-radius: 14px;
+      border: 1px solid var(--border-2);
+      overflow: hidden;
+      background: var(--bg-2);
+      box-shadow: 0 40px 120px rgba(0,0,0,0.4), 0 0 0 1px var(--border);
+    }
+
+    .mockup-bar {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 14px 18px;
+      border-bottom: 1px solid var(--border);
+      background: var(--bg-3);
+    }
+
+    .mockup-dot {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+    }
+
+    .mockup-dot:nth-child(1) { background: #FF5F57; }
+    .mockup-dot:nth-child(2) { background: #FEBC2E; }
+    .mockup-dot:nth-child(3) { background: #28C840; }
+
+    .mockup-url {
+      flex: 1;
+      text-align: center;
+      font-size: 0.75rem;
+      color: var(--text-3);
+      font-family: 'DM Sans', monospace;
+    }
+
+    .mockup-content {
+      padding: 28px;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 20px;
+      min-height: 320px;
+    }
+
+    .mockup-sidebar {
+      border-right: 1px solid var(--border);
+      padding-right: 20px;
+    }
+
+    .mockup-nav-label {
+      font-size: 0.65rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-3);
+      margin-bottom: 12px;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    .mockup-nav-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 8px 10px;
+      border-radius: 6px;
+      margin-bottom: 4px;
+      font-size: 0.78rem;
+      color: var(--text-2);
+    }
+
+    .mockup-nav-item.active {
+      background: var(--accent-dim);
+      color: var(--accent);
+    }
+
+    .mockup-nav-item [data-lucide] {
+      width: 14px;
+      height: 14px;
+    }
+
+    .mockup-main {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .mockup-row {
+      display: flex;
+      gap: 12px;
+    }
+
+    .mockup-card {
+      flex: 1;
+      background: var(--bg-3);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 14px;
+    }
+
+    .mockup-card-label {
+      font-size: 0.65rem;
+      color: var(--text-3);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      margin-bottom: 6px;
+    }
+
+    .mockup-card-value {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: var(--text);
+    }
+
+    .mockup-card-delta {
+      font-size: 0.7rem;
+      color: var(--accent);
+      margin-top: 2px;
+    }
+
+    .mockup-task {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.78rem;
+      color: var(--text-2);
+    }
+
+    .mockup-task:last-child { border-bottom: none; }
+
+    .mockup-task-check {
+      width: 16px;
+      height: 16px;
+      border-radius: 4px;
+      border: 1.5px solid var(--border-2);
+      flex-shrink: 0;
+    }
+
+    .mockup-task-check.done {
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .mockup-progress-bar {
+      height: 4px;
+      background: var(--border);
+      border-radius: 2px;
+      overflow: hidden;
+      margin-top: 12px;
+    }
+
+    .mockup-progress-fill {
+      height: 100%;
+      background: var(--accent);
+      border-radius: 2px;
+      width: 68%;
+    }
+
+    /* =============================================
+       LOGOS / TRUSTED BY
+    ============================================= */
+    .logos-section {
+      padding: 48px 0;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .logos-label {
+      text-align: center;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--text-3);
+      margin-bottom: 32px;
+    }
+
+    .logos-grid {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 48px;
+      flex-wrap: wrap;
+    }
+
+    .logo-item {
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1rem;
+      letter-spacing: -0.02em;
+      color: var(--text-3);
+      transition: color 0.2s ease;
+    }
+
+    .logo-item:hover { color: var(--text-2); }
+
+    /* =============================================
+       FEATURES SECTION
+    ============================================= */
+    .section-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 0.78rem;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      margin-bottom: 20px;
+    }
+
+    .section-label::before {
+      content: '';
+      display: block;
+      width: 20px;
+      height: 1px;
+      background: var(--accent);
+    }
+
+    .section-headline {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      margin-bottom: 16px;
+      max-width: 680px;
+    }
+
+    .section-sub {
+      font-size: 1.05rem;
+      color: var(--text-2);
+      max-width: 540px;
+      line-height: 1.7;
+      font-weight: 300;
+      margin-bottom: 64px;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--border);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .feature-card {
+      padding: 40px 36px;
+      background: var(--bg);
+      transition: background 0.2s ease;
+      position: relative;
+    }
+
+    .feature-card:hover {
+      background: var(--card-bg-hover);
+    }
+
+    .feature-icon {
+      width: 44px;
+      height: 44px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-sm);
+      background: var(--accent-dim);
+      color: var(--accent);
+      margin-bottom: 24px;
+    }
+
+    .feature-icon [data-lucide] {
+      width: 22px;
+      height: 22px;
+    }
+
+    .feature-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .feature-desc {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* =============================================
+       HOW IT WORKS
+    ============================================= */
+    .steps-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 40px;
+      position: relative;
+    }
+
+    .steps-grid::before {
+      content: '';
+      position: absolute;
+      top: 28px;
+      left: calc(16.66% + 20px);
+      right: calc(16.66% + 20px);
+      height: 1px;
+      background: linear-gradient(to right, var(--accent), var(--border), var(--accent));
+    }
+
+    .step-item {
+      text-align: center;
+      position: relative;
+    }
+
+    .step-number {
+      width: 56px;
+      height: 56px;
+      border-radius: 50%;
+      border: 1px solid var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: var(--accent);
+      margin: 0 auto 24px;
+      background: var(--bg);
+      position: relative;
+      z-index: 1;
+    }
+
+    .step-title {
+      font-family: 'Syne', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      margin-bottom: 10px;
+    }
+
+    .step-desc {
+      font-size: 0.875rem;
+      color: var(--text-2);
+      line-height: 1.7;
+      font-weight: 300;
+    }
+
+    /* =============================================
+       TESTIMONIALS
+    ============================================= */
+    .testimonials-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+    }
+
+    .testimonial-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 32px;
+      transition: border-color 0.2s ease, transform 0.2s ease;
+    }
+
+    .testimonial-card:hover {
+      border-color: var(--border-2);
+      transform: translateY(-2px);
+    }
+
+    .testimonial-stars {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 16px;
+      color: var(--accent);
+    }
+
+    .testimonial-stars [data-lucide] {
+      width: 14px;
+      height: 14px;
+      fill: currentColor;
+      stroke: none;
+    }
+
+    .testimonial-text {
+      font-size: 0.9rem;
+      color: var(--text-2);
+      line-height: 1.75;
+      font-weight: 300;
+      margin-bottom: 24px;
+      font-style: italic;
+    }
+
+    .testimonial-author {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .testimonial-avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: var(--accent-dim);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Syne', sans-serif;
+      font-weight: 700;
+      font-size: 0.75rem;
+      color: var(--accent);
+      flex-shrink: 0;
+    }
+
+    .testimonial-name {
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+
+    .testimonial-role {
+      font-size: 0.75rem;
+      color: var(--text-3);
+    }
+
+    /* =============================================
+       PRICING SECTION
+    ============================================= */
+    .pricing-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    .pricing-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 36px;
+      transition: border-color 0.2s ease;
+      position: relative;
+    }
+
+    .pricing-card:hover {
+      border-color: var(--border-2);
+    }
+
+    .pricing-card.featured {
+      border-color: var(--accent);
+      background: var(--accent-dim-2);
+    }
+
+    .pricing-card.featured:hover {
+      border-color: var(--accent);
+    }
+
+    .pricing-badge {
+      position: absolute;
+      top: -12px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: var(--accent);
+      color: #ffffff;
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 4px 12px;
+      border-radius: 999px;
+      white-space: nowrap;
+    }
+
+    .pricing-tier {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-3);
+      margin-bottom: 16px;
+    }
+
+    .pricing-price {
+      font-family: 'Syne', sans-serif;
+      font-size: 2.8rem;
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      margin-bottom: 6px;
+    }
+
+    .pricing-price sup {
+      font-size: 1.2rem;
+      font-weight: 500;
+      vertical-align: super;
+    }
+
+    .pricing-price span {
+      font-size: 1rem;
+      font-weight: 400;
+      color: var(--text-3);
+    }
+
+    .pricing-desc {
+      font-size: 0.85rem;
+      color: var(--text-2);
+      line-height: 1.6;
+      margin-bottom: 28px;
+      padding-bottom: 28px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .pricing-features {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .pricing-features li {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--text-2);
+    }
+
+    .pricing-features li [data-lucide] {
+      color: var(--accent);
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+
+    .pricing-features li.muted {
+      color: var(--text-3);
+    }
+
+    .pricing-features li.muted [data-lucide] {
+      color: var(--text-3);
+    }
+
+    /* =============================================
+       CTA SECTION
+    ============================================= */
+    .cta-section {
+      padding: 100px 0;
+    }
+
+    .cta-inner {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 80px 60px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .cta-inner::before {
+      content: '';
+      position: absolute;
+      top: -60px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 400px;
+      height: 200px;
+      background: radial-gradient(ellipse at center, rgba(167,139,250,0.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .cta-headline {
+      font-size: clamp(2rem, 4vw, 3.5rem);
+      margin-bottom: 20px;
+      position: relative;
+    }
+
+    .cta-sub {
+      font-size: 1.05rem;
+      color: var(--text-2);
+      margin-bottom: 40px;
+      font-weight: 300;
+      max-width: 480px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .cta-form {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .cta-input {
+      padding: 12px 18px;
+      border-radius: var(--radius-sm);
+      border: 1px solid var(--border-2);
+      background: var(--bg-2);
+      color: var(--text);
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      width: 280px;
+      outline: none;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .cta-input:focus {
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-dim);
+    }
+
+    .cta-input::placeholder {
+      color: var(--text-3);
+    }
+
+    .cta-note {
+      font-size: 0.78rem;
+      color: var(--text-3);
+      margin-top: 16px;
+    }
+
+    /* =============================================
+       FOOTER
+    ============================================= */
+    footer {
+      padding: 60px 0 40px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: grid;
+      grid-template-columns: 1.5fr 1fr 1fr 1fr;
+      gap: 48px;
+      margin-bottom: 56px;
+    }
+
+    .footer-brand-name {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.04em;
+      margin-bottom: 12px;
+    }
+
+    .footer-brand-name span { color: var(--accent); }
+
+    .footer-brand-desc {
+      font-size: 0.875rem;
+      color: var(--text-2);
+      line-height: 1.7;
+      font-weight: 300;
+      max-width: 240px;
+    }
+
+    .footer-col-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--text-3);
+      margin-bottom: 16px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .footer-links a {
+      font-size: 0.875rem;
+      color: var(--text-2);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
+
+    .footer-links a:hover { color: var(--text); }
+
+    .footer-bottom {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding-top: 24px;
+      border-top: 1px solid var(--border);
+      font-size: 0.8rem;
+      color: var(--text-3);
+    }
+
+    /* =============================================
+       SCROLL REVEAL ANIMATIONS
+    ============================================= */
+    .reveal {
+      opacity: 0;
+      transform: translateY(28px);
+      transition: opacity 0.7s var(--transition), transform 0.7s var(--transition);
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+    .reveal-delay-5 { transition-delay: 0.5s; }
+
+    /* Hero load animation */
+    .hero-badge, .hero-headline, .hero-sub, .hero-cta, .hero-visual {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: heroLoad 0.8s var(--transition) forwards;
+    }
+
+    .hero-badge    { animation-delay: 0.1s; }
+    .hero-headline { animation-delay: 0.2s; }
+    .hero-sub      { animation-delay: 0.3s; }
+    .hero-cta      { animation-delay: 0.4s; }
+    .hero-visual   { animation-delay: 0.5s; }
+
+    @keyframes heroLoad {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =============================================
+       RESPONSIVE
+    ============================================= */
+    @media (max-width: 1200px) {
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .footer-inner { grid-template-columns: 1fr 1fr; gap: 36px; }
+    }
+
+    @media (max-width: 900px) {
+      .nav-links { display: none; }
+      .hamburger { display: flex; }
+      .mobile-menu { display: flex; }
+
+      .btn-ghost.nav-cta { display: none; }
+
+      .section { padding: 80px 0; }
+      .features-grid { grid-template-columns: 1fr; }
+      .pricing-grid { grid-template-columns: 1fr; }
+      .testimonials-grid { grid-template-columns: 1fr; }
+      .steps-grid { grid-template-columns: 1fr; gap: 32px; }
+      .steps-grid::before { display: none; }
+      .mockup-content { grid-template-columns: 1fr; }
+      .mockup-sidebar { display: none; }
+      .hero-visual { display: none; }
+    }
+
+    @media (max-width: 600px) {
+      .section { padding: 60px 0; }
+      .footer-inner { grid-template-columns: 1fr; }
+      .footer-bottom { flex-direction: column; gap: 8px; text-align: center; }
+      .cta-inner { padding: 48px 24px; }
+      .cta-input { width: 100%; }
+      .cta-form { flex-direction: column; align-items: center; }
+      .pricing-card { padding: 28px 24px; }
+      .hero-headline { font-size: 2.6rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- =============================================
+       NAVIGATION
+  ============================================= -->
+  <nav id="navbar">
+    <div class="container">
+      <div class="nav-inner">
+        <a href="#" class="nav-logo">klar<span>.</span></a>
+
+        <ul class="nav-links">
+          <li><a href="#features" data-i18n="nav.features">Features</a></li>
+          <li><a href="#how" data-i18n="nav.how">How it works</a></li>
+          <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
+        </ul>
+
+        <div class="nav-actions">
+          <div class="controls">
+            <button class="ctrl-btn" id="themeToggle" aria-label="Toggle theme">
+              <i data-lucide="sun"></i>
+            </button>
+            <button class="ctrl-btn active" id="langEN" onclick="setLang('en')">EN</button>
+            <button class="ctrl-btn" id="langDE" onclick="setLang('de')">DE</button>
+          </div>
+          <a href="#pricing" class="btn btn-ghost nav-cta" data-i18n="nav.login">Log in</a>
+          <a href="#cta" class="btn btn-accent" data-i18n="nav.cta">Get started</a>
+          <button class="hamburger" id="hamburger" aria-label="Menu">
+            <span></span><span></span><span></span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#features" data-i18n="nav.features" class="mobile-link">Features</a>
+    <a href="#how" data-i18n="nav.how" class="mobile-link">How it works</a>
+    <a href="#pricing" data-i18n="nav.pricing" class="mobile-link">Pricing</a>
+    <div class="mobile-menu-actions">
+      <a href="#pricing" class="btn btn-ghost btn-lg" data-i18n="nav.login">Log in</a>
+      <a href="#cta" class="btn btn-accent btn-lg" data-i18n="nav.cta">Get started</a>
+    </div>
+  </div>
+
+  <!-- =============================================
+       HERO
+  ============================================= -->
+  <section class="hero">
+    <div class="container">
+      <div class="hero-badge">
+        <div class="hero-badge-dot"></div>
+        <span data-i18n="hero.badge">Now in public beta — 2,400+ teams onboarded</span>
+      </div>
+
+      <h1 class="hero-headline">
+        <span data-i18n="hero.line1">Work without</span><br>
+        <span class="accent-word" data-i18n="hero.line2">the noise.</span>
+      </h1>
+
+      <p class="hero-sub" data-i18n="hero.sub">
+        Klar brings your tasks, timelines and team into one focused space. No clutter. No chaos. Just clarity.
+      </p>
+
+      <div class="hero-cta">
+        <a href="#cta" class="btn btn-accent btn-lg">
+          <span data-i18n="hero.cta1">Start for free</span>
+          <i data-lucide="arrow-right"></i>
+        </a>
+        <a href="#how" class="btn btn-ghost btn-lg">
+          <i data-lucide="play-circle"></i>
+          <span data-i18n="hero.cta2">See how it works</span>
+        </a>
+      </div>
+
+      <div class="hero-visual">
+        <div class="mockup-frame">
+          <div class="mockup-bar">
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+            <div class="mockup-dot"></div>
+            <div class="mockup-url">app.useklar.io/workspace</div>
+          </div>
+          <div class="mockup-content">
+            <div class="mockup-sidebar">
+              <div class="mockup-nav-label" data-i18n="mockup.workspace">Workspace</div>
+              <div class="mockup-nav-item active">
+                <i data-lucide="layout-dashboard"></i>
+                <span data-i18n="mockup.overview">Overview</span>
+              </div>
+              <div class="mockup-nav-item">
+                <i data-lucide="check-square"></i>
+                <span data-i18n="mockup.tasks">Tasks</span>
+              </div>
+              <div class="mockup-nav-item">
+                <i data-lucide="calendar"></i>
+                <span data-i18n="mockup.timeline">Timeline</span>
+              </div>
+              <div class="mockup-nav-item">
+                <i data-lucide="users"></i>
+                <span data-i18n="mockup.team">Team</span>
+              </div>
+              <div class="mockup-nav-item">
+                <i data-lucide="bar-chart-2"></i>
+                <span data-i18n="mockup.reports">Reports</span>
+              </div>
+            </div>
+            <div class="mockup-main">
+              <div class="mockup-row">
+                <div class="mockup-card">
+                  <div class="mockup-card-label" data-i18n="mockup.open">Open tasks</div>
+                  <div class="mockup-card-value">24</div>
+                  <div class="mockup-card-delta">↓ 3 this week</div>
+                </div>
+                <div class="mockup-card">
+                  <div class="mockup-card-label" data-i18n="mockup.done">Completed</div>
+                  <div class="mockup-card-value">138</div>
+                  <div class="mockup-card-delta">↑ 12 this week</div>
+                </div>
+                <div class="mockup-card">
+                  <div class="mockup-card-label" data-i18n="mockup.progress">Progress</div>
+                  <div class="mockup-card-value">68%</div>
+                  <div class="mockup-progress-bar"><div class="mockup-progress-fill"></div></div>
+                </div>
+              </div>
+              <div class="mockup-card" style="flex:1;">
+                <div class="mockup-nav-label" data-i18n="mockup.today">Today's focus</div>
+                <div class="mockup-task">
+                  <div class="mockup-task-check done"></div>
+                  <span data-i18n="mockup.task1">Review design system v2</span>
+                </div>
+                <div class="mockup-task">
+                  <div class="mockup-task-check done"></div>
+                  <span data-i18n="mockup.task2">Ship onboarding update</span>
+                </div>
+                <div class="mockup-task">
+                  <div class="mockup-task-check"></div>
+                  <span data-i18n="mockup.task3">Finalize Q3 roadmap</span>
+                </div>
+                <div class="mockup-task">
+                  <div class="mockup-task-check"></div>
+                  <span data-i18n="mockup.task4">User interview — 3pm</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero-scroll">
+      <i data-lucide="chevron-down"></i>
+    </div>
+  </section>
+
+  <!-- =============================================
+       LOGOS
+  ============================================= -->
+  <div class="logos-section">
+    <div class="container">
+      <p class="logos-label" data-i18n="logos.label">Trusted by teams at</p>
+      <div class="logos-grid">
+        <span class="logo-item">Meridian</span>
+        <span class="logo-item">Stackflow</span>
+        <span class="logo-item">Nuance</span>
+        <span class="logo-item">Lumen Co.</span>
+        <span class="logo-item">Vertex</span>
+        <span class="logo-item">Arkio</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- =============================================
+       FEATURES
+  ============================================= -->
+  <section class="section" id="features">
+    <div class="container">
+      <div class="section-label" data-i18n="features.label">Features</div>
+      <h2 class="section-headline reveal" data-i18n="features.headline">Built for how you actually work.</h2>
+      <p class="section-sub reveal reveal-delay-1" data-i18n="features.sub">
+        No onboarding docs needed. Klar adapts to your workflow — not the other way around.
+      </p>
+
+      <div class="features-grid">
+
+        <div class="feature-card reveal">
+          <div class="feature-icon"><i data-lucide="zap"></i></div>
+          <h3 class="feature-title" data-i18n="f1.title">Instant task capture</h3>
+          <p class="feature-desc" data-i18n="f1.desc">Add tasks in seconds with keyboard shortcuts or voice. Never lose an idea again — Klar keeps everything in one place.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon"><i data-lucide="brain"></i></div>
+          <h3 class="feature-title" data-i18n="f2.title">AI-powered prioritization</h3>
+          <p class="feature-desc" data-i18n="f2.desc">Let Klar surface what matters most today. Our AI analyzes deadlines, blockers, and team capacity automatically.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon"><i data-lucide="git-branch"></i></div>
+          <h3 class="feature-title" data-i18n="f3.title">Real-time collaboration</h3>
+          <p class="feature-desc" data-i18n="f3.desc">Assign, comment, and update together — live. No more stale spreadsheets or tangled email threads.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-1">
+          <div class="feature-icon"><i data-lucide="gantt-chart"></i></div>
+          <h3 class="feature-title" data-i18n="f4.title">Visual timelines</h3>
+          <p class="feature-desc" data-i18n="f4.desc">See your project from start to finish. Drag-and-drop milestones. Spot bottlenecks before they happen.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-2">
+          <div class="feature-icon"><i data-lucide="bell-off"></i></div>
+          <h3 class="feature-title" data-i18n="f5.title">Focus mode</h3>
+          <p class="feature-desc" data-i18n="f5.desc">Silence the noise. Focus mode hides everything except what you committed to doing right now.</p>
+        </div>
+
+        <div class="feature-card reveal reveal-delay-3">
+          <div class="feature-icon"><i data-lucide="plug"></i></div>
+          <h3 class="feature-title" data-i18n="f6.title">100+ integrations</h3>
+          <p class="feature-desc" data-i18n="f6.desc">Connects with Slack, GitHub, Notion, Figma and more. Klar fits into your stack — not the other way around.</p>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       HOW IT WORKS
+  ============================================= -->
+  <section class="section" id="how" style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-label" data-i18n="how.label">How it works</div>
+      <h2 class="section-headline reveal" data-i18n="how.headline">From chaos to clarity in minutes.</h2>
+      <p class="section-sub reveal reveal-delay-1" data-i18n="how.sub">Three steps. No setup fees. No implementation consulting.</p>
+
+      <div class="steps-grid">
+        <div class="step-item reveal">
+          <div class="step-number">01</div>
+          <h3 class="step-title" data-i18n="s1.title">Connect your tools</h3>
+          <p class="step-desc" data-i18n="s1.desc">Link GitHub, Slack, or your existing PM tools. Klar imports your open tasks automatically.</p>
+        </div>
+        <div class="step-item reveal reveal-delay-2">
+          <div class="step-number">02</div>
+          <h3 class="step-title" data-i18n="s2.title">Invite your team</h3>
+          <p class="step-desc" data-i18n="s2.desc">Add teammates with one link. Roles and permissions are set up in seconds.</p>
+        </div>
+        <div class="step-item reveal reveal-delay-4">
+          <div class="step-number">03</div>
+          <h3 class="step-title" data-i18n="s3.title">Start shipping</h3>
+          <p class="step-desc" data-i18n="s3.desc">Your first sprint is live. Track progress, hit milestones, and keep the whole team in sync.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       TESTIMONIALS
+  ============================================= -->
+  <section class="section">
+    <div class="container">
+      <div class="section-label" data-i18n="testimonials.label">Testimonials</div>
+      <h2 class="section-headline reveal" data-i18n="testimonials.headline">Teams that switched don't go back.</h2>
+
+      <div class="testimonials-grid" style="margin-top: 56px;">
+
+        <div class="testimonial-card reveal">
+          <div class="testimonial-stars">
+            <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+          </div>
+          <p class="testimonial-text" data-i18n="t1.text">"Klar replaced four different tools for us. Our standup is now 8 minutes, not 30. I didn't think that was possible."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">SL</div>
+            <div>
+              <div class="testimonial-name">Sara L.</div>
+              <div class="testimonial-role" data-i18n="t1.role">Head of Product, Meridian</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="testimonial-stars">
+            <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+          </div>
+          <p class="testimonial-text" data-i18n="t2.text">"The focus mode alone is worth it. I finally finish what I start. As a solo founder, that's everything."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">MK</div>
+            <div>
+              <div class="testimonial-name">Marco K.</div>
+              <div class="testimonial-role" data-i18n="t2.role">Founder, Stackflow</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="testimonial-card reveal reveal-delay-4">
+          <div class="testimonial-stars">
+            <i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i><i data-lucide="star"></i>
+          </div>
+          <p class="testimonial-text" data-i18n="t3.text">"Switching from Jira to Klar felt like opening a window. Our engineers actually enjoy project tracking now."</p>
+          <div class="testimonial-author">
+            <div class="testimonial-avatar">YP</div>
+            <div>
+              <div class="testimonial-name">Yuki P.</div>
+              <div class="testimonial-role" data-i18n="t3.role">Engineering Lead, Nuance</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       PRICING
+  ============================================= -->
+  <section class="section" id="pricing" style="background: var(--bg-2); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);">
+    <div class="container">
+      <div class="section-label" data-i18n="pricing.label">Pricing</div>
+      <h2 class="section-headline reveal" data-i18n="pricing.headline">Simple, honest pricing.</h2>
+      <p class="section-sub reveal reveal-delay-1" data-i18n="pricing.sub">No hidden fees. No per-seat surprises. Cancel anytime.</p>
+
+      <div class="pricing-grid">
+
+        <!-- Free -->
+        <div class="pricing-card reveal">
+          <div class="pricing-tier" data-i18n="p1.tier">Free</div>
+          <div class="pricing-price">€0<span data-i18n="pricing.mo">/mo</span></div>
+          <p class="pricing-desc" data-i18n="p1.desc">Perfect for solo makers and small experiments. No credit card needed.</p>
+          <ul class="pricing-features">
+            <li><i data-lucide="check"></i><span data-i18n="p1.f1">Up to 3 projects</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p1.f2">5 team members</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p1.f3">Basic task management</span></li>
+            <li class="muted"><i data-lucide="minus"></i><span data-i18n="p1.f4">AI prioritization</span></li>
+            <li class="muted"><i data-lucide="minus"></i><span data-i18n="p1.f5">Timeline view</span></li>
+          </ul>
+          <a href="#cta" class="btn btn-ghost btn-lg" style="width:100%; justify-content:center;" data-i18n="p1.cta">Get started free</a>
+        </div>
+
+        <!-- Pro -->
+        <div class="pricing-card featured reveal reveal-delay-2">
+          <div class="pricing-badge" data-i18n="pricing.popular">Most popular</div>
+          <div class="pricing-tier" data-i18n="p2.tier">Pro</div>
+          <div class="pricing-price"><sup>€</sup>29<span data-i18n="pricing.mo">/mo</span></div>
+          <p class="pricing-desc" data-i18n="p2.desc">For growing teams who need speed, structure and smart automation.</p>
+          <ul class="pricing-features">
+            <li><i data-lucide="check"></i><span data-i18n="p2.f1">Unlimited projects</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p2.f2">Up to 25 members</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p2.f3">AI prioritization</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p2.f4">Timeline & Gantt view</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p2.f5">50+ integrations</span></li>
+          </ul>
+          <a href="#cta" class="btn btn-accent btn-lg" style="width:100%; justify-content:center;" data-i18n="p2.cta">Start 14-day trial</a>
+        </div>
+
+        <!-- Scale -->
+        <div class="pricing-card reveal reveal-delay-4">
+          <div class="pricing-tier" data-i18n="p3.tier">Scale</div>
+          <div class="pricing-price"><sup>€</sup>89<span data-i18n="pricing.mo">/mo</span></div>
+          <p class="pricing-desc" data-i18n="p3.desc">For organizations that need advanced controls, reporting and support.</p>
+          <ul class="pricing-features">
+            <li><i data-lucide="check"></i><span data-i18n="p3.f1">Everything in Pro</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p3.f2">Unlimited members</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p3.f3">Admin & role controls</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p3.f4">Priority support</span></li>
+            <li><i data-lucide="check"></i><span data-i18n="p3.f5">Custom integrations</span></li>
+          </ul>
+          <a href="#cta" class="btn btn-ghost btn-lg" style="width:100%; justify-content:center;" data-i18n="p3.cta">Contact sales</a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       CTA
+  ============================================= -->
+  <section class="cta-section" id="cta">
+    <div class="container">
+      <div class="cta-inner reveal">
+        <h2 class="cta-headline" data-i18n="cta.headline">Ready to work with clarity?</h2>
+        <p class="cta-sub" data-i18n="cta.sub">Join 2,400+ teams who traded chaos for focus. Free to start, no card required.</p>
+        <div class="cta-form">
+          <input type="email" class="cta-input" data-i18n-placeholder="cta.placeholder" placeholder="your@email.com" />
+          <a href="#" class="btn btn-accent btn-lg">
+            <span data-i18n="cta.btn">Get early access</span>
+            <i data-lucide="arrow-right"></i>
+          </a>
+        </div>
+        <p class="cta-note" data-i18n="cta.note">Free plan available. No credit card required.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- =============================================
+       FOOTER
+  ============================================= -->
+  <footer>
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <div class="footer-brand-name">klar<span>.</span></div>
+          <p class="footer-brand-desc" data-i18n="footer.desc">The focused project tool for teams who value their time.</p>
+        </div>
+        <div>
+          <div class="footer-col-title" data-i18n="footer.product">Product</div>
+          <ul class="footer-links">
+            <li><a href="#features" data-i18n="nav.features">Features</a></li>
+            <li><a href="#pricing" data-i18n="nav.pricing">Pricing</a></li>
+            <li><a href="#how" data-i18n="nav.how">How it works</a></li>
+            <li><a href="#" data-i18n="footer.changelog">Changelog</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title" data-i18n="footer.company">Company</div>
+          <ul class="footer-links">
+            <li><a href="#" data-i18n="footer.about">About</a></li>
+            <li><a href="#" data-i18n="footer.blog">Blog</a></li>
+            <li><a href="#" data-i18n="footer.careers">Careers</a></li>
+            <li><a href="#" data-i18n="footer.contact">Contact</a></li>
+          </ul>
+        </div>
+        <div>
+          <div class="footer-col-title" data-i18n="footer.legal">Legal</div>
+          <ul class="footer-links">
+            <li><a href="#" data-i18n="footer.privacy">Privacy</a></li>
+            <li><a href="#" data-i18n="footer.terms">Terms</a></li>
+            <li><a href="#" data-i18n="footer.imprint">Imprint</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <span data-i18n="footer.copy">© 2025 Klar Technologies GmbH</span>
+        <span data-i18n="footer.made">Made in Berlin</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Lucide Icons — loaded before main script -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@latest/dist/umd/lucide.min.js"></script>
+
+  <!-- =============================================
+       JAVASCRIPT
+  ============================================= -->
+  <script>
+    // =============================================
+    // i18n — Translation System
+    // =============================================
+    const translations = {
+      en: {
+        'nav.features':   'Features',
+        'nav.how':        'How it works',
+        'nav.pricing':    'Pricing',
+        'nav.login':      'Log in',
+        'nav.cta':        'Get started',
+        'hero.badge':     'Now in public beta — 2,400+ teams onboarded',
+        'hero.line1':     'Work without',
+        'hero.line2':     'the noise.',
+        'hero.sub':       'Klar brings your tasks, timelines and team into one focused space. No clutter. No chaos. Just clarity.',
+        'hero.cta1':      'Start for free',
+        'hero.cta2':      'See how it works',
+        'mockup.workspace': 'Workspace',
+        'mockup.overview':  'Overview',
+        'mockup.tasks':     'Tasks',
+        'mockup.timeline':  'Timeline',
+        'mockup.team':      'Team',
+        'mockup.reports':   'Reports',
+        'mockup.open':      'Open tasks',
+        'mockup.done':      'Completed',
+        'mockup.progress':  'Progress',
+        'mockup.today':     "Today's focus",
+        'mockup.task1':     'Review design system v2',
+        'mockup.task2':     'Ship onboarding update',
+        'mockup.task3':     'Finalize Q3 roadmap',
+        'mockup.task4':     'User interview — 3pm',
+        'logos.label':    'Trusted by teams at',
+        'features.label':   'Features',
+        'features.headline': 'Built for how you actually work.',
+        'features.sub':     'No onboarding docs needed. Klar adapts to your workflow — not the other way around.',
+        'f1.title': 'Instant task capture',
+        'f1.desc':  'Add tasks in seconds with keyboard shortcuts or voice. Never lose an idea again — Klar keeps everything in one place.',
+        'f2.title': 'AI-powered prioritization',
+        'f2.desc':  'Let Klar surface what matters most today. Our AI analyzes deadlines, blockers, and team capacity automatically.',
+        'f3.title': 'Real-time collaboration',
+        'f3.desc':  'Assign, comment, and update together — live. No more stale spreadsheets or tangled email threads.',
+        'f4.title': 'Visual timelines',
+        'f4.desc':  'See your project from start to finish. Drag-and-drop milestones. Spot bottlenecks before they happen.',
+        'f5.title': 'Focus mode',
+        'f5.desc':  'Silence the noise. Focus mode hides everything except what you committed to doing right now.',
+        'f6.title': '100+ integrations',
+        'f6.desc':  'Connects with Slack, GitHub, Notion, Figma and more. Klar fits into your stack — not the other way around.',
+        'how.label':    'How it works',
+        'how.headline': 'From chaos to clarity in minutes.',
+        'how.sub':      'Three steps. No setup fees. No implementation consulting.',
+        's1.title': 'Connect your tools',
+        's1.desc':  'Link GitHub, Slack, or your existing PM tools. Klar imports your open tasks automatically.',
+        's2.title': 'Invite your team',
+        's2.desc':  'Add teammates with one link. Roles and permissions are set up in seconds.',
+        's3.title': 'Start shipping',
+        's3.desc':  'Your first sprint is live. Track progress, hit milestones, and keep the whole team in sync.',
+        'testimonials.label':    'Testimonials',
+        'testimonials.headline': 'Teams that switched don\'t go back.',
+        't1.text': '"Klar replaced four different tools for us. Our standup is now 8 minutes, not 30. I didn\'t think that was possible."',
+        't1.role': 'Head of Product, Meridian',
+        't2.text': '"The focus mode alone is worth it. I finally finish what I start. As a solo founder, that\'s everything."',
+        't2.role': 'Founder, Stackflow',
+        't3.text': '"Switching from Jira to Klar felt like opening a window. Our engineers actually enjoy project tracking now."',
+        't3.role': 'Engineering Lead, Nuance',
+        'pricing.label':   'Pricing',
+        'pricing.headline':'Simple, honest pricing.',
+        'pricing.sub':     'No hidden fees. No per-seat surprises. Cancel anytime.',
+        'pricing.mo':      '/mo',
+        'pricing.popular': 'Most popular',
+        'p1.tier': 'Free', 'p1.desc': 'Perfect for solo makers and small experiments. No credit card needed.',
+        'p1.f1': 'Up to 3 projects', 'p1.f2': '5 team members', 'p1.f3': 'Basic task management', 'p1.f4': 'AI prioritization', 'p1.f5': 'Timeline view',
+        'p1.cta': 'Get started free',
+        'p2.tier': 'Pro', 'p2.desc': 'For growing teams who need speed, structure and smart automation.',
+        'p2.f1': 'Unlimited projects', 'p2.f2': 'Up to 25 members', 'p2.f3': 'AI prioritization', 'p2.f4': 'Timeline & Gantt view', 'p2.f5': '50+ integrations',
+        'p2.cta': 'Start 14-day trial',
+        'p3.tier': 'Scale', 'p3.desc': 'For organizations that need advanced controls, reporting and support.',
+        'p3.f1': 'Everything in Pro', 'p3.f2': 'Unlimited members', 'p3.f3': 'Admin & role controls', 'p3.f4': 'Priority support', 'p3.f5': 'Custom integrations',
+        'p3.cta': 'Contact sales',
+        'cta.headline':   'Ready to work with clarity?',
+        'cta.sub':        'Join 2,400+ teams who traded chaos for focus. Free to start, no card required.',
+        'cta.placeholder':'your@email.com',
+        'cta.btn':        'Get early access',
+        'cta.note':       'Free plan available. No credit card required.',
+        'footer.desc':      'The focused project tool for teams who value their time.',
+        'footer.product':   'Product', 'footer.company': 'Company', 'footer.legal': 'Legal',
+        'footer.changelog': 'Changelog', 'footer.about': 'About', 'footer.blog': 'Blog',
+        'footer.careers':   'Careers', 'footer.contact': 'Contact',
+        'footer.privacy':   'Privacy', 'footer.terms': 'Terms', 'footer.imprint': 'Imprint',
+        'footer.copy':      '© 2025 Klar Technologies GmbH',
+        'footer.made':      'Made in Berlin',
+      },
+      de: {
+        'nav.features':   'Features',
+        'nav.how':        'So funktioniert\'s',
+        'nav.pricing':    'Preise',
+        'nav.login':      'Einloggen',
+        'nav.cta':        'Jetzt starten',
+        'hero.badge':     'Jetzt in der Public Beta — über 2.400 Teams an Bord',
+        'hero.line1':     'Arbeite ohne',
+        'hero.line2':     'das Rauschen.',
+        'hero.sub':       'Klar bringt Aufgaben, Zeitpläne und dein Team in einen fokussierten Raum. Kein Chaos. Nur Klarheit.',
+        'hero.cta1':      'Kostenlos starten',
+        'hero.cta2':      'So funktioniert\'s',
+        'mockup.workspace': 'Arbeitsbereich',
+        'mockup.overview':  'Übersicht',
+        'mockup.tasks':     'Aufgaben',
+        'mockup.timeline':  'Zeitplan',
+        'mockup.team':      'Team',
+        'mockup.reports':   'Berichte',
+        'mockup.open':      'Offene Aufgaben',
+        'mockup.done':      'Abgeschlossen',
+        'mockup.progress':  'Fortschritt',
+        'mockup.today':     'Heutiger Fokus',
+        'mockup.task1':     'Design-System v2 prüfen',
+        'mockup.task2':     'Onboarding-Update deployen',
+        'mockup.task3':     'Q3-Roadmap finalisieren',
+        'mockup.task4':     'User Interview — 15 Uhr',
+        'logos.label':    'Vertrauen von Teams bei',
+        'features.label':   'Features',
+        'features.headline': 'Gebaut für die Art, wie du wirklich arbeitest.',
+        'features.sub':     'Keine langen Einführungsdokumente. Klar passt sich deinem Workflow an — nicht umgekehrt.',
+        'f1.title': 'Aufgaben sofort erfassen',
+        'f1.desc':  'Aufgaben in Sekunden per Tastenkürzel oder Sprache. Kein Gedanke geht mehr verloren.',
+        'f2.title': 'KI-gestützte Priorisierung',
+        'f2.desc':  'Klar zeigt dir, was heute wirklich zählt. Unsere KI analysiert Deadlines, Blockaden und Teamkapazität.',
+        'f3.title': 'Echtzeit-Zusammenarbeit',
+        'f3.desc':  'Gemeinsam zuweisen, kommentieren und aktualisieren — live. Keine veralteten Tabellen mehr.',
+        'f4.title': 'Visuelle Zeitpläne',
+        'f4.desc':  'Sieh dein Projekt von Anfang bis Ende. Meilensteine per Drag-and-Drop. Engpässe früh erkennen.',
+        'f5.title': 'Fokusmodus',
+        'f5.desc':  'Rauschen abschalten. Der Fokusmodus blendet alles aus außer dem, was du dir für heute vorgenommen hast.',
+        'f6.title': '100+ Integrationen',
+        'f6.desc':  'Verbindet sich mit Slack, GitHub, Notion, Figma und mehr. Klar passt in deinen Stack.',
+        'how.label':    'So funktioniert\'s',
+        'how.headline': 'Vom Chaos zur Klarheit in Minuten.',
+        'how.sub':      'Drei Schritte. Keine Einrichtungsgebühren. Kein Implementierungsaufwand.',
+        's1.title': 'Tools verbinden',
+        's1.desc':  'GitHub, Slack oder bestehende PM-Tools verknüpfen. Klar importiert deine offenen Aufgaben automatisch.',
+        's2.title': 'Team einladen',
+        's2.desc':  'Teammitglieder per Link hinzufügen. Rollen und Rechte in Sekunden vergeben.',
+        's3.title': 'Loslegen',
+        's3.desc':  'Dein erster Sprint läuft. Fortschritt verfolgen, Meilensteine erreichen, das Team synchron halten.',
+        'testimonials.label':    'Stimmen',
+        'testimonials.headline': 'Wer wechselt, geht nicht zurück.',
+        't1.text': '„Klar hat vier Tools bei uns ersetzt. Unser Daily Standup dauert jetzt 8 statt 30 Minuten. Das hätte ich nicht für möglich gehalten."',
+        't1.role': 'Head of Product, Meridian',
+        't2.text': '„Allein der Fokusmodus ist jeden Cent wert. Ich bringe endlich Dinge zu Ende. Als Solo-Founder ist das alles."',
+        't2.role': 'Gründer, Stackflow',
+        't3.text': '„Der Wechsel von Jira zu Klar war wie ein Fenster öffnen. Unsere Entwickler mögen Project-Tracking jetzt tatsächlich."',
+        't3.role': 'Engineering Lead, Nuance',
+        'pricing.label':   'Preise',
+        'pricing.headline':'Einfache, ehrliche Preise.',
+        'pricing.sub':     'Keine versteckten Kosten. Jederzeit kündbar.',
+        'pricing.mo':      '/Monat',
+        'pricing.popular': 'Beliebtester Plan',
+        'p1.tier': 'Free', 'p1.desc': 'Perfekt für Solopreneure und kleine Projekte. Keine Kreditkarte erforderlich.',
+        'p1.f1': 'Bis zu 3 Projekte', 'p1.f2': '5 Teammitglieder', 'p1.f3': 'Basis-Aufgabenverwaltung', 'p1.f4': 'KI-Priorisierung', 'p1.f5': 'Zeitplanansicht',
+        'p1.cta': 'Kostenlos starten',
+        'p2.tier': 'Pro', 'p2.desc': 'Für wachsende Teams, die Tempo, Struktur und smarte Automatisierung brauchen.',
+        'p2.f1': 'Unbegrenzte Projekte', 'p2.f2': 'Bis zu 25 Mitglieder', 'p2.f3': 'KI-Priorisierung', 'p2.f4': 'Zeitplan & Gantt-Ansicht', 'p2.f5': '50+ Integrationen',
+        'p2.cta': '14 Tage kostenlos testen',
+        'p3.tier': 'Scale', 'p3.desc': 'Für Organisationen, die erweiterte Kontrolle, Reporting und Support benötigen.',
+        'p3.f1': 'Alles aus Pro', 'p3.f2': 'Unbegrenzte Mitglieder', 'p3.f3': 'Admin- und Rollenverwaltung', 'p3.f4': 'Prioritätssupport', 'p3.f5': 'Custom-Integrationen',
+        'p3.cta': 'Vertrieb kontaktieren',
+        'cta.headline':   'Bereit, mit Klarheit zu arbeiten?',
+        'cta.sub':        'Über 2.400 Teams haben Chaos gegen Fokus getauscht. Kostenlos starten, keine Kreditkarte.',
+        'cta.placeholder':'deine@email.de',
+        'cta.btn':        'Frühen Zugang sichern',
+        'cta.note':       'Free-Plan verfügbar. Keine Kreditkarte erforderlich.',
+        'footer.desc':      'Das fokussierte Projekttool für Teams, die ihre Zeit schätzen.',
+        'footer.product':   'Produkt', 'footer.company': 'Unternehmen', 'footer.legal': 'Rechtliches',
+        'footer.changelog': 'Changelog', 'footer.about': 'Über uns', 'footer.blog': 'Blog',
+        'footer.careers':   'Karriere', 'footer.contact': 'Kontakt',
+        'footer.privacy':   'Datenschutz', 'footer.terms': 'AGB', 'footer.imprint': 'Impressum',
+        'footer.copy':      '© 2025 Klar Technologies GmbH',
+        'footer.made':      'Made in Berlin',
+      }
+    };
+
+    let currentLang = 'en';
+
+    function setLang(lang) {
+      currentLang = lang;
+      const t = translations[lang];
+
+      // Update text content
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (t[key]) el.textContent = t[key];
+      });
+
+      // Update placeholders
+      document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+        const key = el.getAttribute('data-i18n-placeholder');
+        if (t[key]) el.placeholder = t[key];
+      });
+
+      // Update lang buttons
+      document.getElementById('langEN').classList.toggle('active', lang === 'en');
+      document.getElementById('langDE').classList.toggle('active', lang === 'de');
+
+      // Update html lang attribute
+      document.documentElement.lang = lang;
+    }
+
+    // =============================================
+    // Dark / Light Mode Toggle
+    // =============================================
+    const themeToggle = document.getElementById('themeToggle');
+    let isDark = true;
+
+    themeToggle.addEventListener('click', () => {
+      isDark = !isDark;
+      document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      // Toggle icon
+      const icon = themeToggle.querySelector('[data-lucide]');
+      icon.setAttribute('data-lucide', isDark ? 'sun' : 'moon');
+      lucide.createIcons();
+    });
+
+    // =============================================
+    // Navbar scroll behavior
+    // =============================================
+    window.addEventListener('scroll', () => {
+      document.getElementById('navbar').classList.toggle('scrolled', window.scrollY > 20);
+    });
+
+    // =============================================
+    // Hamburger Menu
+    // =============================================
+    const hamburger = document.getElementById('hamburger');
+    const mobileMenu = document.getElementById('mobileMenu');
+
+    hamburger.addEventListener('click', () => {
+      hamburger.classList.toggle('open');
+      mobileMenu.classList.toggle('open');
+      document.body.style.overflow = mobileMenu.classList.contains('open') ? 'hidden' : '';
+    });
+
+    // Close mobile menu on link click
+    document.querySelectorAll('.mobile-link, .mobile-menu-actions a').forEach(link => {
+      link.addEventListener('click', () => {
+        hamburger.classList.remove('open');
+        mobileMenu.classList.remove('open');
+        document.body.style.overflow = '';
+      });
+    });
+
+    // =============================================
+    // Scroll Reveal — IntersectionObserver
+    // =============================================
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+    // =============================================
+    // Init
+    // =============================================
+    lucide.createIcons();
+
+    // Re-init after theme toggle (already handled inline above)
+  </script>
+</body>
+</html>
