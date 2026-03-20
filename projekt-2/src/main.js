@@ -163,15 +163,35 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('sum-email').textContent=this.value.trim()||'—';
   });
 
-  document.getElementById('btn-confirm').addEventListener('click',()=>{
+  document.getElementById('btn-confirm').addEventListener('click', async ()=>{
     const name=document.getElementById('input-name');
     const email=document.getElementById('input-email');
+    const topic=document.getElementById('input-topic');
     let ok=true;
     document.querySelectorAll('.form-error').forEach(e=>e.remove());
     name.classList.remove('error'); email.classList.remove('error');
     if(!name.value.trim()){ name.classList.add('error'); showErr(name,t('err_name')); ok=false; }
     if(!email.value.trim()||!email.value.includes('@')){ email.classList.add('error'); showErr(email,t('err_email')); ok=false; }
     if(!ok) return;
+
+    const btnConfirm = document.getElementById('btn-confirm');
+    btnConfirm.disabled = true;
+
+    try {
+      await fetch('https://formspree.io/f/maqpvrqr', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+        body: JSON.stringify({
+          name: name.value.trim(),
+          email: email.value.trim(),
+          datum: fmtDisplay(state.selectedDate),
+          uhrzeit: state.selectedSlot + ' Uhr',
+          thema: topic.value.trim() || '—',
+        }),
+      });
+    } catch (_) { /* Fehler still ignorieren — Success trotzdem zeigen */ }
+
+    btnConfirm.disabled = false;
 
     document.getElementById('booking-grid').style.display='none';
     document.getElementById('step-indicator').style.display='none';
