@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="de" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BookSlot — Terminbuchung</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Syne:wght@700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="/src/style.css" />
+
+</head>
+<body>
+
+  <header id="site-header">
+    <div class="logo">Book<span>Slot</span></div>
+    <div class="header-right">
+      <button class="pill-btn" id="lang-btn">
+        <i data-lucide="globe"></i>
+        <span id="lang-label">EN</span>
+      </button>
+      <button class="pill-btn" id="theme-btn">
+        <i data-lucide="sun" id="theme-icon"></i>
+      </button>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg-img"></div>
+    <div class="hero-grid"></div>
+    <div class="hero-scan"></div>
+    <div class="hero-orb"></div>
+    <div class="hero-ring"></div>
+    <div class="hero-corner tl"></div>
+    <div class="hero-corner tr"></div>
+    <div class="hero-corner bl"></div>
+    <div class="hero-corner br"></div>
+
+    <div class="data-chip chip-1">
+      <i data-lucide="zap"></i>
+      <span><strong data-i18n="chip1_val">127</strong> <span data-i18n="chip1_label">Buchungen heute</span></span>
+    </div>
+    <div class="data-chip chip-2">
+      <i data-lucide="check-circle"></i>
+      <span><strong>98%</strong> <span data-i18n="chip2_label">Bestätigungsrate</span></span>
+    </div>
+    <div class="data-chip chip-3">
+      <i data-lucide="clock"></i>
+      <span><strong>&lt; 2 min</strong> <span data-i18n="chip3_label">Buchungszeit</span></span>
+    </div>
+
+    <div class="hero-content">
+      <div class="hero-tag">
+        <i data-lucide="zap"></i>
+        <span data-i18n="hero_eyebrow">Terminbuchung — System aktiv</span>
+      </div>
+      <h1 class="hero-title">
+        <span data-i18n="hero_line1">Dein</span>
+        <span class="line-accent" data-i18n="hero_line2">Termin.</span>
+        <span class="line-outline" data-i18n="hero_line3">Deine Zeit.</span>
+      </h1>
+      <p class="hero-sub" data-i18n="hero_sub">
+        Datum wählen, Slot sichern, fertig — kein Hin-und-Her per E-Mail, kein Warten auf Rückmeldung.
+      </p>
+      <div class="hero-actions">
+        <button class="btn-hero-primary" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">
+          <i data-lucide="arrow-down"></i>
+          <span data-i18n="hero_cta">Slot buchen</span>
+        </button>
+        <div class="hero-stat">
+          <strong>100%</strong>
+          <span data-i18n="hero_stat">kostenlos & ohne Account</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="scroll-indicator" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">
+      <div class="scroll-line"></div>
+      <span data-i18n="scroll">Scroll</span>
+    </div>
+  </section>
+
+  <!-- BOOKING -->
+  <section class="booking-section" id="booking">
+    <div class="section-head reveal">
+      <div>
+        <div class="section-eyebrow">
+          <i data-lucide="calendar"></i>
+          <span data-i18n="section_label">Terminbuchung</span>
+        </div>
+        <h2 class="section-title" data-i18n="section_title">Wähle Datum und Zeit</h2>
+      </div>
+      <div class="steps" id="step-indicator">
+        <div class="step active" id="step-tab-1">
+          <div class="step-num">1</div>
+          <span data-i18n="step1">Datum</span>
+        </div>
+        <div class="step" id="step-tab-2">
+          <div class="step-num">2</div>
+          <span data-i18n="step2">Uhrzeit</span>
+        </div>
+        <div class="step" id="step-tab-3">
+          <div class="step-num">3</div>
+          <span data-i18n="step3">Details</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="booking-grid reveal" id="booking-grid">
+      <div>
+        <!-- Panel 1 -->
+        <div class="step-panel active" id="panel-1">
+          <div class="card">
+            <div class="card-title"><i data-lucide="calendar-days"></i><span data-i18n="pick_date">Datum wählen</span></div>
+            <div class="calendar-nav">
+              <button class="cal-btn" id="cal-prev"><i data-lucide="chevron-left"></i></button>
+              <span class="cal-month" id="cal-month-label"></span>
+              <button class="cal-btn" id="cal-next"><i data-lucide="chevron-right"></i></button>
+            </div>
+            <div class="calendar-grid" id="calendar-grid"></div>
+          </div>
+          <button class="btn-primary" id="btn-to-step2" disabled>
+            <span data-i18n="continue">Weiter</span><i data-lucide="arrow-right"></i>
+          </button>
+        </div>
+
+        <!-- Panel 2 -->
+        <div class="step-panel" id="panel-2">
+          <div class="card">
+            <div class="card-title"><i data-lucide="clock"></i><span data-i18n="pick_time">Uhrzeit wählen</span></div>
+            <div class="slots-grid" id="slots-grid"></div>
+          </div>
+          <button class="btn-primary" id="btn-to-step3" disabled>
+            <span data-i18n="continue">Weiter</span><i data-lucide="arrow-right"></i>
+          </button>
+          <button class="btn-secondary" id="btn-back-1">
+            <i data-lucide="arrow-left"></i><span data-i18n="back">Zurück</span>
+          </button>
+        </div>
+
+        <!-- Panel 3 -->
+        <div class="step-panel" id="panel-3">
+          <div class="card">
+            <div class="card-title"><i data-lucide="user"></i><span data-i18n="your_details">Deine Angaben</span></div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="label_name">Name</label>
+              <input type="text" class="form-input" id="input-name" data-i18n-placeholder="ph_name" />
+            </div>
+            <div class="form-group">
+              <label class="form-label" data-i18n="label_email">E-Mail</label>
+              <input type="email" class="form-input" id="input-email" data-i18n-placeholder="ph_email" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">
+                <span data-i18n="label_topic">Thema</span>
+                <span style="color:var(--text-2);font-weight:300;margin-left:4px">(optional)</span>
+              </label>
+              <textarea class="form-input" id="input-topic" rows="3" data-i18n-placeholder="ph_topic"></textarea>
+            </div>
+          </div>
+          <button class="btn-primary" id="btn-confirm">
+            <i data-lucide="check"></i><span data-i18n="confirm">Termin bestätigen</span>
+          </button>
+          <button class="btn-secondary" id="btn-back-2">
+            <i data-lucide="arrow-left"></i><span data-i18n="back">Zurück</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Summary -->
+      <div class="summary-card">
+        <div class="card">
+          <div class="summary-badge"><i data-lucide="clipboard-list"></i><span data-i18n="your_booking">Deine Buchung</span></div>
+          <div class="summary-row">
+            <i data-lucide="calendar"></i>
+            <div><div class="summary-row-label" data-i18n="sum_date">Datum</div><div class="summary-row-value" id="sum-date"><span class="summary-placeholder">—</span></div></div>
+          </div>
+          <div class="summary-row">
+            <i data-lucide="clock"></i>
+            <div><div class="summary-row-label" data-i18n="sum_time">Uhrzeit</div><div class="summary-row-value" id="sum-time"><span class="summary-placeholder">—</span></div></div>
+          </div>
+          <div class="summary-row">
+            <i data-lucide="user"></i>
+            <div><div class="summary-row-label" data-i18n="sum_name">Name</div><div class="summary-row-value" id="sum-name"><span class="summary-placeholder">—</span></div></div>
+          </div>
+          <div class="summary-row">
+            <i data-lucide="mail"></i>
+            <div><div class="summary-row-label" data-i18n="sum_email">E-Mail</div><div class="summary-row-value" id="sum-email"><span class="summary-placeholder">—</span></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Success -->
+    <div class="success-wrap" id="success-wrap">
+      <div class="success-icon"><i data-lucide="check"></i></div>
+      <h2 class="success-title" data-i18n="success_title">Bestätigt.</h2>
+      <p class="success-sub" data-i18n="success_sub">Deine Buchung ist eingegangen. Eine Bestätigung wurde an deine E-Mail geschickt.</p>
+      <div class="success-detail" id="success-detail"></div>
+      <button class="btn-new" id="btn-new-booking">
+        <i data-lucide="plus"></i><span data-i18n="new_booking">Neue Buchung</span>
+      </button>
+    </div>
+  </section>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>
