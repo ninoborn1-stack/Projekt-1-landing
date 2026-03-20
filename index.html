@@ -1618,13 +1618,13 @@
       <div class="cta-inner reveal">
         <h2 class="cta-headline" data-i18n="cta.headline">Ready to work with clarity?</h2>
         <p class="cta-sub" data-i18n="cta.sub">Join 2,400+ teams who traded chaos for focus. Free to start, no card required.</p>
-        <div class="cta-form">
-          <input type="email" class="cta-input" data-i18n-placeholder="cta.placeholder" placeholder="your@email.com" />
-          <a href="#" class="btn btn-accent btn-lg">
+        <form class="cta-form" action="https://formspree.io/f/xlgpzypb" method="POST">
+          <input type="email" name="email" class="cta-input" data-i18n-placeholder="cta.placeholder" placeholder="your@email.com" required />
+          <button type="submit" class="btn btn-accent btn-lg">
             <span data-i18n="cta.btn">Get early access</span>
             <i data-lucide="arrow-right"></i>
-          </a>
-        </div>
+          </button>
+        </form>
         <p class="cta-note" data-i18n="cta.note">Free plan available. No credit card required.</p>
       </div>
     </div>
